@@ -1,5 +1,18 @@
 services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: true       # Allows optimizing the container by removing unused services; this also means
+                                # fetching services directly from the container via $container->get() won't work.
+                                # The best practice is to be explicit about your dependencies anyway.
     ScyLabs\ApimoBundle\Services\ApimoService:
         arguments: ['@service_container','@doctrine.orm.entity_manager']
+    ScyLabs\ApimoBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
     ScyLabs\ApimoBundle\Controller\ApiController:
-        arguments: ['@scy_labs_apimo.apimo']
+        arguments: ['@scy_labs_apimo.apimo','controller.service_arguments']
+
+    ScyLabs\ApimoBundle\:
+        resource: '../../*'
+        exclude: '../../{Entity,Migrations,Tests,Kernel.php}'
