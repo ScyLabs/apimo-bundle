@@ -1,0 +1,25 @@
+{
+    "name": "scylabs/apimo-bundle",
+    "type": "symfony-bundle",
+    "version": "1.0",
+    "keywords": ["Apimo api interface"],
+    "homepage": "",
+    "license": "MIT",
+    "description": "Bundle allowing to make queries towards APIMO API in a simplified and agile way.",
+    "require": {
+        "php": "^7.1.3",
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "ScyLabs\\ApimoBundle\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexandre Sciacca",
+            "email": "alexandre.sciacca@gmail.com"
+        }
+    ]
+}
