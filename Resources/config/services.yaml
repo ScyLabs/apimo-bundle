@@ -3,3 +3,6 @@ services:
         arguments: ['@service_container','@doctrine.orm.entity_manager']
     ScyLabs\ApimoBundle\Controller\ApiController:
         arguments: ['@scy_labs_apimo.apimo']
+    ScyLabs\NeptuneBundle\Controller\:
+        resource: '../../Controller'
+            tags: ['controller.service_arguments']
