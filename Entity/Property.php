@@ -44,7 +44,7 @@ class Property
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="ScyLabs\ApimoBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="ScyLabs\ApimoBundle\Entity\Category",inversedBy="properties")
      */
     private $category;
 

@@ -8,6 +8,8 @@
 
 namespace ScyLabs\ApimoBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,12 +38,43 @@ class Category
      */
     private $name;
 
-
-
+    /**
+     * @ORM\OneToMany(targetEntity="ScyLabs\ApimoBundle\Entity\Property",mappedBy="category")
+     */
+    private $properties;
 
     public function __construct(){
+        $this->properties = new ArrayCollection();
+    }
+    /**
+     * @return Collection|Property[]
+     */
+    public function getProperties(): Collection
+    {
+        return $this->properties;
     }
 
+    public function addProperty(Property $property): self
+    {
+        if (!$this->properties->contains($property)) {
+            $this->properties[] = $property;
+            $property->setCategory($this);
+        }
+
+        return $this;
+    }
+    public function removePage(Property $property): self
+    {
+        if ($this->properties->contains($property)) {
+            $this->properties->removeElement($property);
+            // set the owning side to null (unless already changed)
+            if ($property->getCategory() === $this) {
+                $property->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
     public function getId() : ?int {
         return $this->id;
     }
