@@ -59,7 +59,7 @@ class Property
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="ScyLabs\ApimoBundle\Entity\PropertyType",inversedBy="properties")
      */
     private $type;
 
@@ -387,12 +387,12 @@ class Property
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?PropertyType
     {
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType(PropertyType $type): self
     {
         $this->type = $type;
 

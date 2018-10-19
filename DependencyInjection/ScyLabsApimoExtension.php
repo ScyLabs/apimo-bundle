@@ -34,17 +34,23 @@ class ScyLabsApimoExtension extends Extension
             if(!isset($config['api']['urls']['categories'])){
                 $config['api']['urls']['categories'] = '/catalogs/property_category';
             }
+            if(!isset($config['api']['urls']['property_type'])){
+                $config['api']['urls']['property_type'] = '/catalogs/property_type';
+            }
             if(!isset($config['api']['urls']['properties'])){
                 $config['api']['urls']['properties'] = '/agencies/'.$config['api']['agency'].'/properties';
             }
+
             $container->setParameter($this->getAlias().'.api.urls',$config['api']['urls']);
         }
         else{
             // Define defaults values to urls , if parameter not configure
             $container->setParameter($this->getAlias().'.api.urls',array(
 
-                    'categories'    =>  '/catalogs/property_category',
-                    'properties'      =>  '/agencies/'.$config['api']['agency'].'/properties',
+                    'categories'        =>  '/catalogs/property_category',
+                    'properties'        =>  '/agencies/'.$config['api']['agency'].'/properties',
+                    'property_type'     => '/catalogs/property_type',
+
             ));
         }
 

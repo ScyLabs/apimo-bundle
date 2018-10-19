@@ -11,6 +11,7 @@ namespace ScyLabs\ApimoBundle\Services;
 use Doctrine\ORM\EntityManagerInterface;
 use ScyLabs\ApimoBundle\Entity\Category;
 use ScyLabs\ApimoBundle\Entity\Property;
+use ScyLabs\ApimoBundle\Entity\PropertyType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ApimoService
@@ -49,7 +50,10 @@ class ApimoService
         }
         $this->clearProperties();
         $this->clearCategories();
+        $this->clearPropertyType();
         if(!$this->majCategories())
+            return false;
+        if(!$this->majPropertyTypes())
             return false;
         if(!$this->majProperties())
             return false;
@@ -67,6 +71,23 @@ class ApimoService
             return false;
         return $this->request($type);
 
+    }
+
+    private function majPropertyTypes(string $lang = 'fr_FR') : bool{
+        $propertyTypes = $this->request('property_type',$lang);
+        if(!$this->resultIsValid($propertyTypes)){
+            return false;
+        }
+        foreach ($propertyTypes as $propertyType){
+            $propertyTypeObj = new PropertyType();
+            $propertyTypeObj
+                ->setCulture($propertyType['culture'])
+                ->setIdApi($propertyType['id'])
+                ->setName($propertyType['name']);
+            $this->em->persist($propertyTypeObj);
+        }
+        $this->em->flush();
+        return true;
     }
 
     private function majCategories(string $lang = 'fr_FR') :bool {
@@ -103,7 +124,9 @@ class ApimoService
                 $property['category'] = $this->em->getRepository(Category::class)->findOneBy(array(
                     'idApi' => $property['category']
                 ));
-
+                $property['type'] = $this->em->getRepository(PropertyType::class)->findOneBy(array(
+                    'idApi' => $property['type']
+                ));
                 $propertyObject = new Property($property);
 
                 $this->em->persist($propertyObject);
@@ -112,6 +135,8 @@ class ApimoService
         $this->em->flush();
         return true;
     }
+
+
 
     private function resultIsValid(array $result){
         if(isset($result['status']) && $result['status'] != 200){
@@ -152,6 +177,16 @@ class ApimoService
     private function clearProperties(){
 
         $repo = $this->em->getRepository(Property::class);
+        $properties = $repo->findAll();
+
+        foreach ($properties as $property){
+            $this->em->remove($property);
+        }
+        $this->em->flush();
+    }
+    private function clearPropertyType(){
+
+        $repo = $this->em->getRepository(PropertyType::class);
         $properties = $repo->findAll();
 
         foreach ($properties as $property){
