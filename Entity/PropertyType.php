@@ -60,7 +60,7 @@ class PropertyType
     {
         if (!$this->properties->contains($property)) {
             $this->properties[] = $property;
-            $property->setCategory($this);
+            $property->setType($this);
         }
 
         return $this;
@@ -70,8 +70,8 @@ class PropertyType
         if ($this->properties->contains($property)) {
             $this->properties->removeElement($property);
             // set the owning side to null (unless already changed)
-            if ($property->getCategory() === $this) {
-                $property->setCategory(null);
+            if ($property->getType() === $this) {
+                $property->setType(null);
             }
         }
 
