@@ -3,6 +3,8 @@
 namespace ScyLabs\ApimoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
  * @ORM\Entity(repositoryClass="ScyLabs\ApimoBundle\Repository\PropertyRepository")
@@ -57,6 +59,12 @@ class Property
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
+
+    /**
+     * @ORM\Column(type="string",length=128,unique=true)
+     * @Gedmo\Slug(fields={"name","reference"})
+     */
+    private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity="ScyLabs\ApimoBundle\Entity\PropertyType",inversedBy="properties")
@@ -286,6 +294,13 @@ class Property
         }
     }
 
+    public function getSlug() : string{
+        return $this->slug;
+    }
+    public function setSlug(string $slug) : self{
+        $this->slug = $slug;
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;
