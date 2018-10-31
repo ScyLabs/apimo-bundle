@@ -128,8 +128,8 @@ class ApimoService
                     'idApi' => $property['type']
                 ));
                 $propertyObject = new Property($property);
-                if(empty($property->getReference())){
-                    $property->setReference('1');
+                if(empty($propertyObject->getReference())){
+                    $propertyObject->setReference('1');
                 }
 
                 $this->em->persist($propertyObject);
