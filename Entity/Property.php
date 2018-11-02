@@ -287,6 +287,9 @@ class Property
                 if($key == 'id'){
                     $this->idApi = $tab['id'];
                 }
+                elseif($key == 'propertyCondition'){
+                    $this->propertyCondition = $tab['condition'];
+                }
                 else{
                     $this->$key = $tab[$key];
                 }
