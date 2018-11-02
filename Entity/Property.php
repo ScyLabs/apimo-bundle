@@ -283,7 +283,7 @@ class Property
 
     public function __construct(array $tab = array()){
         foreach ($this as $key => $value){
-            if(isset($tab[$key])){
+            if(isset($tab[$key]) || $key == 'propertyCondition'){
                 if($key == 'id'){
                     $this->idApi = $tab['id'];
                 }
